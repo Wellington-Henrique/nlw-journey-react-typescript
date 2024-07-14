@@ -1,12 +1,37 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-end-date-header";
+import { useParams } from "react-router-dom";
+import { api } from "../../lib/axios";
+
+export interface Activity {
+  id: string;
+  name: string;
+  date: string;
+  status: boolean;
+}
+
+export interface Trip {
+  name: string;
+  startDate: string;
+  endDate: string;
+  activities: Activity[];
+}
 
 export function TripDetailsPage() {
+  const { tripId } = useParams();
+  const [currentTrip, setCurrentTrip] = useState<Trip | undefined>();
+
+  useEffect(() => {
+    api.get(`trips/${tripId}`).then((resp) => {
+      setCurrentTrip(resp.data);
+    });
+  }, [tripId]);
+
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
     useState(false);
 
