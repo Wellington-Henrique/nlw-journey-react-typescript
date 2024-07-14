@@ -45,7 +45,7 @@ export function TripDetailsPage() {
 
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
-      <DestinationAndDateHeader />
+      <DestinationAndDateHeader trip={currentTrip} />
 
       <main className="flex gap-16  px-4">
         <div className="flex-1 space-y-6">
@@ -61,7 +61,7 @@ export function TripDetailsPage() {
             </button>
           </div>
 
-          <Activities />
+          <Activities activities={currentTrip?.activities} />
         </div>
 
         <div className="w-80 space-y-6">

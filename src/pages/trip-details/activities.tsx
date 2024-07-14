@@ -1,36 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { CircleCheck } from "lucide-react";
+import { Activity } from ".";
 
-interface Activity {
-  id: string;
-  name: string;
-  date: string;
-  status: boolean;
+interface ActivitiesProps {
+  activities: Activity[] | undefined;
 }
 
-interface Trip {
-  name: string;
-  startDate: string;
-  endDate: string;
-  activities: Activity[];
-}
-
-export function Activities() {
-  const { tripId } = useParams();
-  const [trip, setTrip] = useState<Trip | null>(null);
-
-  useEffect(() => {
-    api.get(`Trips/${tripId}`).then((resp) => setTrip(resp.data));
-  }, [tripId]);
-
+export function Activities({ activities }: ActivitiesProps) {
   return (
     <div className="space-y-8">
-      {trip?.activities.map((activity) => (
+      {activities?.map((activity) => (
         <div className="space-y-2.5">
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">
@@ -48,10 +29,6 @@ export function Activities() {
               {format(activity.date, "HH:mm")}h
             </span>
           </div>
-
-          {/* <p className="text-zinc-500 text-sm">
-            Nenhuma atividade cadastrada nessa data.
-          </p> */}
         </div>
       ))}
     </div>
